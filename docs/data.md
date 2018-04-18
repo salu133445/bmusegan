@@ -32,4 +32,4 @@ Hence, the size of the target output tensor is 4 (bar) &times; 96 (time step)
   (2291, 6, 4, 96, 84, 8).
 
 ![train_samples](figs/train_samples.png)
-<p class="caption">Six examples of eight-track piano-roll of four-bar long (each block represents a bar) seen in our training data. The tracks are (from top to bottom): <i>Drums</i>, <i>Piano</i>, <i>Guitar</i>, <i>Bass</i>, <i>Ensemble</i>, <i>Reed</i>, <i>Synth Lead</i> and <i>Synth Pad</i>.</p>
+<p class="caption">Six examples of eight-track piano-roll of four-bar long (each block represents a bar). The tracks are (from top to bottom): <i>Drums</i>, <i>Piano</i>, <i>Guitar</i>, <i>Bass</i>, <i>Ensemble</i>, <i>Reed</i>, <i>Synth Lead</i> and <i>Synth Pad</i>.</p>
