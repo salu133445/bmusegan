@@ -64,7 +64,7 @@ output for the corresponding track.
 musical properties (e.g., textures, common-used patterns, playing techniques),
 while jointly they follow a common, high-level musical idea.
 
-<img src="figs/generator.png" alt="generator" style="max-height:250px; display:block;">
+<img src="figs/generator.png" alt="generator" style="max-height:200px; display:block;">
 
 ### Refiner
 
@@ -106,7 +106,7 @@ Finally, the intra-bar features extracted from the three streams are fed to
 <i>D<sub>m</sub></i> to extract inter-bar features and to make the final
 prediction.
 
-<img src="figs/discriminator.png" alt="discriminator" style="max-height:250px; display:block;">
+<img src="figs/discriminator.png" alt="discriminator" style="max-height:300px; display:block;">
 
 ## Reference
 
