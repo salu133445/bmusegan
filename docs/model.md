@@ -38,7 +38,6 @@ backward pass, we can then train the whole network with back propagation.
 ## Proposed Model
 
 ![bmusegan](figs/bmusegan.png)
-<p class="caption" align="center">System diagram of the proposed model</p>
 
 The design is based on MuseGAN [4] as differences summarized below:
 
@@ -64,6 +63,8 @@ output for the corresponding track.
 > This design reflects the intuition that different tracks have their own
 musical properties (e.g., textures, common-used patterns, playing techniques),
 while jointly they follow a common, high-level musical idea.
+
+<img src="figs/generator.png" alt="generator" style="max-height:250px; display:block;">
 
 ### Refiner
 
@@ -104,6 +105,8 @@ back propagation.
 Finally, the intra-bar features extracted from the three streams are fed to
 <i>D<sub>m</sub></i> to extract inter-bar features and to make the final
 prediction.
+
+<img src="figs/discriminator.png" alt="discriminator" style="max-height:250px; display:block;">
 
 ## Reference
 
