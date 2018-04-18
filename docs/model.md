@@ -5,17 +5,17 @@
 *Binary neurons* (BNs) are neurons that output binary-valued predictions. In
 this work, we consider two types of BNs:
 
-- *Stochastic Binary Neurons* (SBNs) binarize a real-valued input *x* according
-  to a probability, defined as:
-  <img src="figs/formula_sbn.png" alt="residual_block" style="max-height:30px; display:block;">
-  where &sigma;(&middot;) is the logistic sigmoid function and *U*[0, 1] denotes
-  an uniform distribution.
-
 - *Deterministic Binary Neurons* (DBNs) act like neurons with hard thresholding
   functions as their activation functions. We define the output of a DBN for a
   real-valued input *x* as:
   <img src="figs/formula_dbn.png" alt="residual_block" style="max-height:30px; display:block;">
   where **1**<sub>(&middot;)</sub> is the indicator function.
+
+- *Stochastic Binary Neurons* (SBNs) binarize a real-valued input *x* according
+  to a probability, defined as:
+  <img src="figs/formula_sbn.png" alt="residual_block" style="max-height:30px; display:block;">
+  where &sigma;(&middot;) is the logistic sigmoid function and *U*[0, 1] denotes
+  an uniform distribution.
 
 ## Straight-through Estimator
 
