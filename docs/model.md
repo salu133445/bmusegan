@@ -4,13 +4,13 @@
 
 The design is based on [MuseGAN](https://salu133445.github.io/musegan/) [1] as differences summarized below:
 
-- Instead of using multiple generators and use shared/private input vectors to
-  handle the multi-track interdependency, we proposed to use shared/private
-  generators.
-- Instead of using one single discriminator, we proposed to introduce
-  shared/private design to the discriminator.
-- To help the discriminator extract musically-relevant features, we proposed to
-  add to the discriminator an *onset/offset stream* and a *chroma stream*.
+- Instead of using multiple generators and shared/private input vectors to
+  handle the multi-track interdependency, we use shared/private generators with
+  one single input vector.
+- Instead of using one single discriminator, we introduce shared/private design
+  to the discriminator.
+- To help the discriminator extract musically-relevant features, we add to the
+  discriminator an *onset/offset stream* and a *chroma stream*.
 
 ## Generator
 
