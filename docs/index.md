@@ -1,4 +1,7 @@
-<img src="figs/logo.png" alt="logo" width="200" height="200" style="margin-left:0 margin-right:0"/>
+<div>
+<img class="hide-on-hover" src="figs/logo_bmusegan.png" alt="logo" width="200" height="200" style="margin-left:0 margin-right:0"/>
+<img class="show-on-hover" src="figs/logo.png" alt="logo" width="200" height="200" style="margin-left:0 margin-right:0"/>
+<div>
 
 [BinaryMuseGAN](https://salu133445.github.io/bmusegan/) is a follow-up project
 of the [MuseGAN](https://salu133445.github.io/musegan/) project.
