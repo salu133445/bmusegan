@@ -91,6 +91,10 @@ a:hover small {
   color:#555;
 }
 
+.image-switch-on-hover .hide-on-hover {
+  display: block;
+}
+
 .image-switch-on-hover:hover .hide-on-hover {
   display: none;
 }
