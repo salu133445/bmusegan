@@ -102,7 +102,12 @@ ENV/
 
 # vscode
 .vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
+
+# Experiments
+exp/
+logs/
+analysis/
+!analysis/*.py
+!analysis/*.ipynb
+!analysis/figs/
+analysis/figs/BACKUP
