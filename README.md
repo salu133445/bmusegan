@@ -51,4 +51,4 @@ python main.py
   The array will be reshaped to (-1, `num_bar`, `num_timestep`, `num_pitch`,
   `num_track`). These variables are defined in `config.py`.
 
-- Download our training data [here](https://salu133445.github.io/bmusegan/data).
+- Download our training data [here](https://salu133445.github.io/bmusegan/data)
