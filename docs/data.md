@@ -28,8 +28,8 @@ Hence, the size of the target output tensor is 4 (bar) &times; 96 (time step)
 &times; 84 (pitch) &times; 8 (track).
 
 - [lastfm_alternative_8b_phrase.npy](https://drive.google.com/uc?id=1x3CeSqE6ElWa6V7ueNl8FKPFmMoyu4ED&export=download)
-  (3.38 GB) contains 13,746 four-bar phrases from 2,291 songs. The shape is
-  (2291, 6, 4, 96, 84, 8).
+  (3.38 GB) contains 13,746 four-bar phrases from 2,291 songs with *alternative*
+  tags. The shape is (2291, 6, 4, 96, 84, 8).
 
 ![train_samples](figs/train_samples.png)
 <p class="caption">Six examples of eight-track piano-roll of four-bar long (each block represents a bar). The tracks are (from top to bottom): <i>Drums</i>, <i>Piano</i>, <i>Guitar</i>, <i>Bass</i>, <i>Ensemble</i>, <i>Reed</i>, <i>Synth Lead</i> and <i>Synth Pad</i>.</p>
