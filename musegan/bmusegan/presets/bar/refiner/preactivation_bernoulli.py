@@ -3,10 +3,14 @@
 NET_R = {}
 
 NET_R['private'] = [
-    ('reshape', (96, 84, 1)),                              
-    ('identity', None, None, 'bn', 'lrelu'),
-    ('conv2d', (128, (3, 12), (1, 1), 'SAME'), 'bn', 'lrelu'),  
-    ('conv2d', (1, (3, 12), (1, 1), 'SAME')),    
-    ('identity', None, None, 'bernoulli', ('add', 0)),
+    ('identity', None, None, None),
+    ('identity', None, 'bn', 'relu'),
+    ('conv3d', (64, (3, 12), (1, 1), 'SAME'), 'bn', 'relu'),
+    ('conv3d', (1, (3, 12), (1, 1), 'SAME'), None, None),
+    ('identity', None, None, None, ('add', 0)),
+    ('identity', None, 'bn', 'relu'),
+    ('conv3d', (64, (3, 12), (1, 1), 'SAME'), 'bn', 'relu'),
+    ('conv3d', (1, (3, 12), (1, 1), 'SAME'), None, None),
+    ('identity', None, None, 'bernoulli', ('add', 4)),
     ('reshape', (1, 96, 84, 1))
 ]
