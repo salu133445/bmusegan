@@ -2,7 +2,8 @@
 
 ![bmusegan](figs/bmusegan.png)
 
-The design is based on [MuseGAN](https://salu133445.github.io/musegan/) [1] as differences summarized below:
+The design is based on [MuseGAN](https://salu133445.github.io/musegan/) [1] as
+differences summarized below:
 
 - Instead of using multiple generators and shared/private input vectors to
   handle the multi-track interdependency, we use shared/private generators with
