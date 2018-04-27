@@ -31,8 +31,9 @@ Modify `config.py` for configuration.
 
 - More configuration options
 
-  Three dictionaries `EXP_CONFIG`, `MODEL_CONFIG` and `TRAIN_CONFIG` define configuration variables in experiment, model and training levels,
-  respectively.
+  Four dictionaries `EXP_CONFIG`, `DATA_CONFIG`, `MODEL_CONFIG` and
+  `TRAIN_CONFIG` define experiment-, data-, model- and training-related
+  configuration variables, respectively.
 
   > The automatically-determined experiment name is based only on the values
 defined in the dictionary `SETUP`, so remember to provide the experiment name
@@ -52,3 +53,11 @@ python main.py
   `num_track`). These variables are defined in `config.py`.
 
 - Download our training data [here](https://salu133445.github.io/bmusegan/data)
+
+## Paper
+
+- Hao-Wen Dong and Yi-Hsuan Yang,
+  "Convolutional Generative Adversarial Networks with Binary Neurons for
+  Polyphonic Music Generation",
+  *arXiv preprint, arxiv:1804.09399*, 2018.
+  [[arxiv](https://arxiv.org/abs/1804.09399)]
