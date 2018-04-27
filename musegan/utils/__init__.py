@@ -1,2 +1,2 @@
-"""Non-project-specific libaries
+"""Utilities
 """
