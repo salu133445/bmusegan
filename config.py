@@ -30,7 +30,8 @@ SETUP = {
     # in './exp/' and all the experiment-related files are saved in that
     # folder. None to determine automatically. The automatically-
     # determined experiment name is based only on the values defined in the
-    # dictionary `SETUP`, so remember to provide the experiment name manually.
+    # dictionary `SETUP`, so remember to provide the experiment name manually
+    # (so that you won't overwrite a trained model).
 
     'training_data': 'lastfm_alternative_8b_phrase',
     # Filename of the training data. The training data can be loaded from a npy
