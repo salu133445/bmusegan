@@ -7,15 +7,19 @@ Documentation is provided right after each key.
 
 Configuration
 =============
-More configuration options are provided. Three dictionaries `EXP_CONFIG`,
-`MODEL_CONFIG` and `TRAIN_CONFIG` define configuration variables in
-experiment, model and training levels, respectively. The automatically-
-determined experiment name is based only on the values defined in the
-dictionary `SETUP`, so remember to provide the experiment name manually.
+More configuration options are provided. Four dictionaries `EXP_CONFIG`,
+`DATA_CONFIG`, `MODEL_CONFIG` and `TRAIN_CONFIG` define experiment-, data-,
+model- and training-related configuration variables, respectively.
+
+Note that the automatically-determined experiment name is based only on the
+values defined in the dictionary `SETUP`, so remember to provide the experiment
+name manually if you have changed the configuration so that you won't overwrite
+existing experiment directories.
 """
 import os
 import shutil
 import distutils.dir_util
+import importlib
 import numpy as np
 import tensorflow as tf
 
@@ -28,11 +32,16 @@ SETUP = {
     # determined experiment name is based only on the values defined in the
     # dictionary `SETUP`, so remember to provide the experiment name manually.
 
-    'train_x': 'herman_alternative_13b_phrase_lastfm_',
-    # Filename of the training data for `sa.attach()`. The training data
-    # must be saved to the shared memory using Shared Array package first.
-    # Note that some default values in `MODEL_CONFIG` assume using LPD-13,
-    # so remember to modify them if not using LPD-13.
+    'training_data': 'lastfm_alternative_8b_phrase',
+    # Filename of the training data. The training data can be loaded from a npy
+    # file in the hard disk or from the shared memory using SharedArray package.
+    # Note that the data will be reshaped to (-1, num_bar, num_timestep,
+    # num_pitch, num_track) and remember to set these variable to proper values,
+    # which are defined in `MODEL_CONFIG`.
+
+    'training_data_location': 'sa',
+    # Location of the training data. 'hd' to load from a npy file stored in the
+    # hard disk. 'sa' to load from shared array using SharedArray package.
 
     'gpu': '0',
     # The GPU index in os.environ['CUDA_VISIBLE_DEVICES'] to use.
@@ -47,11 +56,17 @@ SETUP = {
     # pretrained models or set to None and setup `MODEL_CONFIG['num_bar']`
     # to define the number of bars to output.
 
+    'sample_along_training': True,
+    # True to generate samples along the training process. False for nothing.
+
+    'verbose': True,
+    # True to print each batch details to stdout. False to print once an epoch.
+
     'two_stage_training': True,
     # True to train the model in a two-stage training setting. False to
     # train the model in an end-to-end manner.
 
-    'training_phase': 'train',
+    'training_phase': 'pretrain',
     # {'train', 'pretrain'}
     # The training phase in a two-stage training setting. Only effective
     # when `two_stage_training` is True.
@@ -79,10 +94,8 @@ SETUP = {
     # Use a preset network architecture for the discriminator or set to None
     # and setup `MODEL_CONFIG['net_d']` to define the network architecture.
 
-    'preset_r': 'preactivation_round_3x12'
-    # {'round', 'bernoulli', 'round_3x12', 'bernoulli_3x12',
-    #  'preactivation_round', 'preactivation_bernoulli',
-    #  'preactivation_round_3x12', 'preactivation_bernoulli_3x12'}
+    'preset_r': 'proposed_round',
+    # {'proposed_round', 'proposed_bernoulli'}
     # Use a preset network architecture for the refiner or set to None and
     # setup `MODEL_CONFIG['net_r']` to define the network architecture.
 }
@@ -95,12 +108,13 @@ TF_CONFIG = tf.ConfigProto()
 TF_CONFIG.gpu_options.allow_growth = True
 
 #===============================================================================
-#======================= Experiment-level Configuration ========================
+#========================== Experiment Configuration ===========================
 #===============================================================================
 EXP_CONFIG = {
     'exp_name': None,
+    'two_stage_training': None,
     'pretrained_dir': None,
-    'first_stage_dir': None
+    'first_stage_dir': None,
 }
 
 if EXP_CONFIG['exp_name'] is None:
@@ -112,7 +126,7 @@ if EXP_CONFIG['exp_name'] is None:
         )
     elif SETUP['training_phase'] == 'pretrain':
         EXP_CONFIG['exp_name'] = '_'.join(
-            (SETUP['phase'], SETUP['prefix'], SETUP['preset_d'])
+            (SETUP['training_phase'], SETUP['prefix'], SETUP['preset_d'])
         )
     elif SETUP['training_phase'] == 'train':
         if SETUP['joint_training']:
@@ -139,32 +153,46 @@ if EXP_CONFIG['first_stage_dir'] is None:
         )
 
 #===============================================================================
-#======================== Training-level Configuration =========================
+#============================= Data Configuration ==============================
+#===============================================================================
+DATA_CONFIG = {
+    'training_data': None,
+    'training_data_location': None,
+}
+
+if DATA_CONFIG['training_data'] is None:
+    DATA_CONFIG['training_data'] = SETUP['training_data']
+if DATA_CONFIG['training_data_location'] is None:
+    DATA_CONFIG['training_data_location'] = SETUP['training_data_location']
+
+#===============================================================================
+#=========================== Training Configuration ============================
 #===============================================================================
 TRAIN_CONFIG = {
+    'sample_along_training': None,
+    'verbose': None,
     'two_stage_training': None,
     'training_phase': None,
-    'train_x': None,
     'num_epoch': 20,
     'slope_annealing_rate': 1.1,
-    'verbose': True
 }
 
 if TRAIN_CONFIG['training_phase'] is None:
     TRAIN_CONFIG['training_phase'] = SETUP['training_phase']
-
-if TRAIN_CONFIG['train_x'] is None:
-    TRAIN_CONFIG['train_x'] = SETUP['train_x']
+if TRAIN_CONFIG['sample_along_training'] is None:
+    TRAIN_CONFIG['sample_along_training'] = SETUP['sample_along_training']
+if TRAIN_CONFIG['verbose'] is None:
+    TRAIN_CONFIG['verbose'] = SETUP['verbose']
 
 #===============================================================================
-#========================= Model-level Configuration ===========================
+#============================= Model Configuration =============================
 #===============================================================================
 MODEL_CONFIG = {
     # Models
     'joint_training': None,
 
     # Parameters
-    'batch_size': 16, # Note: tf.layers.conv3d_transpose requires a fixed batch
+    'batch_size': 32, # Note: tf.layers.conv3d_transpose requires a fixed batch
                       # size in TensorFlow < 1.6
     'z_dim': 128,
     'gan': {
@@ -232,77 +260,32 @@ MODEL_CONFIG = {
     'sample_dir': os.path.join('exp', EXP_CONFIG['exp_name'], 'samples'),
     'eval_dir': os.path.join('exp', EXP_CONFIG['exp_name'], 'eval'),
     'log_dir': os.path.join('exp', EXP_CONFIG['exp_name'], 'logs'),
-    'src_dir': os.path.join('exp', EXP_CONFIG['exp_name'], 'src')
+    'src_dir': os.path.join('exp', EXP_CONFIG['exp_name'], 'src'),
 }
 
 if MODEL_CONFIG['num_bar'] is None:
     if SETUP['mode'] == 'bar':
         MODEL_CONFIG['num_bar'] = 1
     elif SETUP['mode'] == 'phrase':
-        MODEL_CONFIG['num_bar'] =  4
+        MODEL_CONFIG['num_bar'] = 4
 if MODEL_CONFIG['joint_training'] is None:
     MODEL_CONFIG['joint_training'] = SETUP['joint_training']
-
-# Import preset network architectures
 if MODEL_CONFIG['net_g'] is None:
-    if SETUP['mode'] == 'bar':
-        if SETUP['preset_g'] == 'proposed':
-            from musegan2.presets.bar.generator.proposed import NET_G
-    elif SETUP['mode'] == 'phrase':
-        if SETUP['preset_g'] == 'proposed':
-            from musegan2.presets.phrase.generator.proposed import NET_G
-        elif SETUP['preset_g'] == 'proposed_smaller':
-            from musegan2.presets.phrase.generator.proposed_smaller import NET_G
-    MODEL_CONFIG['net_g'] = NET_G
-
+    IMPORTED = importlib.import_module('.'.join((
+        'musegan.bmusegan.presets', SETUP['mode'], 'generator', SETUP['preset_g']
+    )))
+    MODEL_CONFIG['net_g'] = IMPORTED.NET_G
 if MODEL_CONFIG['net_d'] is None:
-    if SETUP['mode'] == 'bar':
-        if SETUP['preset_d'] == 'proposed':
-            from musegan2.presets.bar.discriminator.proposed import NET_D
-        elif SETUP['preset_d'] == 'ablated':
-            from musegan2.presets.bar.discriminator.ablated import NET_D
-        elif SETUP['preset_d'] == 'baseline':
-            from musegan2.presets.bar.discriminator.baseline import NET_D
-    elif SETUP['mode'] == 'phrase':
-        if SETUP['preset_d'] == 'proposed':
-            from musegan2.presets.phrase.discriminator.proposed import NET_D
-        elif SETUP['preset_d'] == 'proposed_smaller':
-            from musegan2.presets.phrase.discriminator.proposed_smaller \
-                import NET_D
-        elif SETUP['preset_d'] == 'ablated':
-            from musegan2.presets.phrase.discriminator.ablated import NET_D
-        elif SETUP['preset_d'] == 'baseline':
-            from musegan2.presets.phrase.discriminator.baseline import NET_D
-    MODEL_CONFIG['net_d'] = NET_D
-
+    IMPORTED = importlib.import_module('.'.join((
+        'musegan.bmusegan.presets', SETUP['mode'], 'discriminator',
+        SETUP['preset_d']
+    )))
+    MODEL_CONFIG['net_d'] = IMPORTED.NET_D
 if MODEL_CONFIG['net_r'] is None:
-    if SETUP['mode'] == 'bar':
-        if SETUP['preset_r'] == 'resnet_round':
-            from musegan2.presets.bar.refiner.round import NET_R
-        elif SETUP['preset_r'] == 'resnet_bernoulli':
-            from musegan2.presets.bar.refiner.bernoulli import NET_R
-    elif SETUP['mode'] == 'phrase':
-        if SETUP['preset_r'] == 'round':
-            from musegan2.presets.phrase.refiner.round import NET_R
-        elif SETUP['preset_r'] == 'bernoulli':
-            from musegan2.presets.phrase.refiner.bernoulli import NET_R
-        elif SETUP['preset_r'] == 'preactivation_round':
-            from musegan2.presets.phrase.refiner.preactivation_round \
-                import NET_R
-        elif SETUP['preset_r'] == 'preactivation_bernoulli':
-            from musegan2.presets.phrase.refiner.preactivation_bernoulli \
-                import NET_R
-        elif SETUP['preset_r'] == 'round_3x12':
-            from musegan2.presets.phrase.refiner.round_3x12 import NET_R
-        elif SETUP['preset_r'] == 'bernoulli_3x12':
-            from musegan2.presets.phrase.refiner.bernoulli_3x12 import NET_R
-        elif SETUP['preset_r'] == 'preactivation_round_3x12':
-            from musegan2.presets.phrase.refiner.preactivation_round_3x12 \
-                import NET_R
-        elif SETUP['preset_r'] == 'preactivation_bernoulli_3x12':
-            from musegan2.presets.phrase.refiner.preactivation_bernoulli_3x12 \
-            import NET_R
-    MODEL_CONFIG['net_r'] = NET_R
+    IMPORTED = importlib.import_module('.'.join((
+        'musegan.bmusegan.presets', SETUP['mode'], 'refiner', SETUP['preset_r']
+    )))
+    MODEL_CONFIG['net_r'] = IMPORTED.NET_R
 
 #===============================================================================
 #=================== Make directories & Backup source code =====================
@@ -324,6 +307,6 @@ for path in os.listdir(os.path.dirname(os.path.realpath(__file__))):
             )
 
 distutils.dir_util.copy_tree(
-    os.path.join(os.path.dirname(os.path.realpath(__file__)), 'musegan2'),
-    os.path.join(MODEL_CONFIG['src_dir'], 'musegan2')
+    os.path.join(os.path.dirname(os.path.realpath(__file__)), 'musegan'),
+    os.path.join(MODEL_CONFIG['src_dir'], 'musegan')
 )

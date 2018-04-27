@@ -106,8 +106,7 @@ ENV/
 # Experiments
 exp/
 logs/
-analysis/
-!analysis/*.py
-!analysis/*.ipynb
-!analysis/figs/
-analysis/figs/BACKUP
+BACKUP/
+analysis/gen_test/
+analysis/eval_statistics/
+analysis/plot_loss_curve.ipynb
