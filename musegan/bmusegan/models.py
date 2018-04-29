@@ -170,9 +170,10 @@ class Model(object):
                                      '{}.png'.format(filename + postfix))
         image_io.save_image(imagepath, samples, shape)
         if save_midi:
+            binarized = (samples > 0)
             midipath = os.path.join(self.config['sample_dir'],
                                     '{}.mid'.format(filename))
-            midi_io.save_midi(midipath, samples, self.config)
+            midi_io.save_midi(midipath, binarized, self.config)
 
     def run_sampler(self, targets, feed_dict, save_midi=False, postfix=None):
         """Run the target operation with feed_dict and save the samples."""
@@ -192,11 +193,12 @@ class Model(object):
     def run_eval(self, target, feed_dict, postfix=None):
         """Run evaluation."""
         result = self.sess.run(target, feed_dict)
+        binarized = (result > 0)
         if postfix is None:
             filename = self.get_global_step_str()
         else:
             filename = self.get_global_step_str() + postfix
-        reshaped = result.reshape((-1,) + result.shape[2:])
+        reshaped = binarized.reshape((-1,) + binarized.shape[2:])
         mat_path = os.path.join(self.config['eval_dir'], filename+'.npy')
         _ = self.metrics.eval(reshaped, mat_path=mat_path)
 
@@ -216,7 +218,9 @@ class GAN(Model):
 
         # Create placeholders
         self.z = tf.placeholder(
-            tf.float32, (self.config['batch_size'], self.config['z_dim']), 'z')
+            tf.float32,
+            (self.config['batch_size'], self.config['net_g']['z_dim']), 'z'
+        )
         data_shape = (self.config['batch_size'], self.config['num_bar'],
                       self.config['num_timestep'], self.config['num_pitch'],
                       self.config['num_track'])
@@ -270,7 +274,7 @@ class GAN(Model):
         """Train the model."""
         # Initialize sampler
         self.z_sample = np.random.normal(
-            size=(self.config['batch_size'], self.config['z_dim']))
+            size=(self.config['batch_size'], self.config['net_g']['z_dim']))
         self.x_sample = x_train[np.random.choice(
             len(x_train), self.config['batch_size'], False)]
         feed_dict_sample = {self.x: self.x_sample, self.z: self.z_sample}
@@ -300,10 +304,13 @@ class GAN(Model):
             epoch_start_time = time.time()
 
             # Prepare batched training data
-            z_random_batch = np.random.normal(size=(
-                num_batch, self.config['batch_size'], self.config['z_dim']))
+            z_random_batch = np.random.normal(
+                size=(num_batch, self.config['batch_size'],
+                      self.config['net_g']['z_dim'])
+            )
             x_random_batch = np.random.choice(
-                len(x_train), (num_batch, self.config['batch_size']), False)
+                len(x_train), (num_batch, self.config['batch_size']), False
+            )
 
             # Start batch iteration
             for batch in range(num_batch):
@@ -468,7 +475,7 @@ class RefineGAN(Model):
         """Train the model."""
         # Initialize sampler
         self.z_sample = np.random.normal(
-            size=(self.config['batch_size'], self.config['z_dim']))
+            size=(self.config['batch_size'], self.config['net_g']['z_dim']))
         self.x_sample = x_train[np.random.choice(
             len(x_train), self.config['batch_size'], False)]
         feed_dict_sample = {self.x: self.x_sample, self.z: self.z_sample}
@@ -520,8 +527,10 @@ class RefineGAN(Model):
             epoch_start_time = time.time()
 
             # Prepare batched training data
-            z_random_batch = np.random.normal(size=(
-                num_batch, self.config['batch_size'], self.config['z_dim']))
+            z_random_batch = np.random.normal(
+                size=(num_batch, self.config['batch_size'],
+                      self.config['net_g']['z_dim'])
+            )
             x_random_batch = np.random.choice(
                 len(x_train), (num_batch, self.config['batch_size']), False)
 
@@ -574,8 +583,7 @@ class RefineGAN(Model):
                         self.run_sampler(self.G.tensor_out, feed_dict_sample,
                                          (counter > 500))
                         self.run_sampler(self.G.preactivated, feed_dict_sample,
-                                         (counter > 500),
-                                         postfix='preactivated')
+                                         False, postfix='preactivated')
 
                 # run evaluation
                 if train_config['evaluate_along_training']:
@@ -626,7 +634,9 @@ class End2EndGAN(Model):
 
         # Create placeholders
         self.z = tf.placeholder(
-            tf.float32, (self.config['batch_size'], self.config['z_dim']), 'z')
+            tf.float32,
+            (self.config['batch_size'], self.config['net_g']['z_dim']), 'z'
+        )
         data_shape = (self.config['batch_size'], self.config['num_bar'],
                       self.config['num_timestep'], self.config['num_pitch'],
                       self.config['num_track'])
@@ -681,7 +691,7 @@ class End2EndGAN(Model):
         """Train the model."""
         # Initialize sampler
         self.z_sample = np.random.normal(
-            size=(self.config['batch_size'], self.config['z_dim']))
+            size=(self.config['batch_size'], self.config['net_g']['z_dim']))
         self.x_sample = x_train[np.random.choice(
             len(x_train), self.config['batch_size'], False)]
         feed_dict_sample = {self.x: self.x_sample, self.z: self.z_sample}
@@ -717,8 +727,10 @@ class End2EndGAN(Model):
             epoch_start_time = time.time()
 
             # Prepare batched training data
-            z_random_batch = np.random.normal(size=(
-                num_batch, self.config['batch_size'], self.config['z_dim']))
+            z_random_batch = np.random.normal(
+                size=(num_batch, self.config['batch_size'],
+                      self.config['net_g']['z_dim'])
+            )
             x_random_batch = np.random.choice(
                 len(x_train), (num_batch, self.config['batch_size']), False)
 
@@ -769,9 +781,9 @@ class End2EndGAN(Model):
                 if train_config['sample_along_training']:
                     if counter%100 == 0 or (counter < 300 and counter%20 == 0):
                         self.run_sampler(self.G.tensor_out, feed_dict_sample,
-                                         counter > 500)
+                                         (counter > 500))
                         self.run_sampler(self.G.preactivated, feed_dict_sample,
-                                         counter > 500, postfix='preactivated')
+                                         False, postfix='preactivated')
 
                 # run evaluation
                 if train_config['evaluate_along_training']:
