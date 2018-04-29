@@ -25,8 +25,7 @@ class Layer(object):
                 if structure[0] not in SUPPORTED_LAYER_TYPES:
                     raise ValueError("Unknown layer type at " + self.scope.name)
                 self.layer_type = structure[0]
-                self.tensor_out = self.build(structure, condition,
-                                              slope_tensor)
+                self.tensor_out = self.build(structure, condition, slope_tensor)
                 self.vars = tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES,
                                               self.scope.name)
         else:
@@ -42,7 +41,7 @@ class Layer(object):
 
     def get_summary(self):
         """Return the summary string."""
-        return "{:26} {:12} {:40}".format(
+        return "{:36} {:12} {:30}".format(
             self.scope.name, self.layer_type, str(self.tensor_out.get_shape()))
 
     def build(self, structure, condition, slope_tensor):
@@ -223,7 +222,7 @@ class NeuralNet(object):
         """Return the summary string."""
         return '\n'.join(
             ['[{}]'.format(self.scope.name),
-             "{:39} {}".format('Input', self.tensor_in.get_shape())]
+             "{:49} {}".format('Input', self.tensor_in.get_shape())]
             + [x.get_summary() for x in self.layers])
 
     def build(self, architecture):
