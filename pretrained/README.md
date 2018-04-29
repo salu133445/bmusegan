@@ -2,6 +2,8 @@
 
 ## Download a particular pretrained model
 
+Run
+
 ```sh
 sh download.sh [filename]
 ```
@@ -14,6 +16,8 @@ directory. Available models are listed as follows:
 - `lastfm_alternative_pretrain_d_baseline.tar.gz`
 
 ## Download all pretrained models
+
+Run
 
 ```sh
 sh download_all.sh
