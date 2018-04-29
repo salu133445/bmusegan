@@ -60,6 +60,9 @@ SETUP = {
     'sample_along_training': True,
     # True to generate samples along the training process. False for nothing.
 
+    'evaluate_along_training': True,
+    # True to run evaluation along the training process. False for nothing.
+
     'verbose': True,
     # True to print each batch details to stdout. False to print once an epoch.
 
@@ -171,6 +174,7 @@ if DATA_CONFIG['training_data_location'] is None:
 #===============================================================================
 TRAIN_CONFIG = {
     'sample_along_training': None,
+    'evaluate_along_training': None,
     'verbose': None,
     'two_stage_training': None,
     'training_phase': None,
@@ -178,10 +182,12 @@ TRAIN_CONFIG = {
     'slope_annealing_rate': 1.1,
 }
 
-if TRAIN_CONFIG['training_phase'] is None:
-    TRAIN_CONFIG['training_phase'] = SETUP['training_phase']
 if TRAIN_CONFIG['sample_along_training'] is None:
     TRAIN_CONFIG['sample_along_training'] = SETUP['sample_along_training']
+if TRAIN_CONFIG['evaluate_along_training'] is None:
+    TRAIN_CONFIG['evaluate_along_training'] = SETUP['evaluate_along_training']
+if TRAIN_CONFIG['training_phase'] is None:
+    TRAIN_CONFIG['training_phase'] = SETUP['training_phase']
 if TRAIN_CONFIG['verbose'] is None:
     TRAIN_CONFIG['verbose'] = SETUP['verbose']
 
