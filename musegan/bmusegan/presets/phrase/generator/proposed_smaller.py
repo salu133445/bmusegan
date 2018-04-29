@@ -2,6 +2,8 @@
 """
 NET_G = {}
 
+NET_G['z_dim'] = 128
+
 NET_G['shared'] = [
     ('dense', (3*256), 'bn', 'relu'),                           # 0
     ('reshape', (3, 1, 1, 256)),                                # 1 (3, 1, 1)
