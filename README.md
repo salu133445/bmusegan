@@ -41,7 +41,7 @@ manually (so that you won't overwrite a trained model).
 
 ### Run
 
-```bash
+```sh
 python main.py
 ```
 
