@@ -81,7 +81,7 @@ class Generator(Component):
             for idx in range(config['num_track'])
         ]
 
-        tensor_out = tf.concat([l.tensor_out for l in nets['merged_private']],
+        tensor_out = tf.concat([nn.tensor_out for nn in nets['merged_private']],
                                -1)
         return tensor_out, nets
 
@@ -124,7 +124,7 @@ class Discriminator(Component):
         ]
 
         nets['shared'] = NeuralNet(
-            tf.concat([l.tensor_out for l in nets['merged_private']], -1),
+            tf.concat([nn.tensor_out for nn in nets['merged_private']], -1),
             config['net_d']['shared'], name='shared'
         )
 
@@ -185,8 +185,9 @@ class Refiner(Component):
             for idx in range(config['num_track'])
         ]
 
-        return (tf.concat([l.tensor_out for l in nets['private']], -1), nets,
-                tf.concat([l[-1].preactivated for l in nets['private']], -1))
+        return (tf.concat([nn.tensor_out for nn in nets['private']], -1), nets,
+                tf.concat([nn.layers[-1].preactivated
+                           for nn in nets['private']], -1))
 
 class End2EndGenerator(Component):
     """Class that defines the end-to-end generator."""
@@ -237,5 +238,6 @@ class End2EndGenerator(Component):
             for idx in range(config['num_track'])
         ]
 
-        return (tf.concat([l.tensor_out for l in nets['private']], -1), nets,
-                tf.concat([l[-1].preactivated for l in nets['private']], -1))
+        return (tf.concat([nn.tensor_out for nn in nets['private']], -1), nets,
+                tf.concat([nn.layers[-1].preactivated
+                           for nn in nets['private']], -1))
