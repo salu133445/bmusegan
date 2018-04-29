@@ -89,12 +89,12 @@ SETUP = {
     # when `two_stage_training` is True and `training_phase` is 'train'.
 
     'preset_g': 'proposed',
-    # {'proposed', 'proposed_smaller', None}
+    # {'proposed', 'proposed_small', None}
     # Use a preset network architecture for the generator or set to None and
     # setup `MODEL_CONFIG['net_g']` to define the network architecture.
 
     'preset_d': 'proposed',
-    # {'proposed', 'proposed_smaller', 'ablated', 'baseline', None}
+    # {'proposed', 'proposed_small', 'ablated', 'baseline', None}
     # Use a preset network architecture for the discriminator or set to None
     # and setup `MODEL_CONFIG['net_d']` to define the network architecture.
 
@@ -132,23 +132,26 @@ if EXP_CONFIG['exp_name'] is None:
         EXP_CONFIG['exp_name'] = SETUP['exp_name']
     elif not SETUP['two_stage_training']:
         EXP_CONFIG['exp_name'] = '_'.join(
-            (SETUP['prefix'], 'end2end', 'd', SETUP['preset_d'], 'r',
-             SETUP['preset_r'])
+            (SETUP['prefix'], 'end2end', 'g', SETUP['preset_g'], 'd',
+             SETUP['preset_d'], 'r', SETUP['preset_r'])
         )
     elif SETUP['training_phase'] == 'pretrain':
         EXP_CONFIG['exp_name'] = '_'.join(
-            (SETUP['prefix'], SETUP['training_phase'], 'd', SETUP['preset_d'])
+            (SETUP['prefix'], SETUP['training_phase'], 'g', SETUP['preset_g'],
+             'd', SETUP['preset_d'])
         )
     elif SETUP['training_phase'] == 'train':
         if SETUP['joint_training']:
             EXP_CONFIG['exp_name'] = '_'.join(
-                (SETUP['prefix'], SETUP['training_phase'], 'joint', 'd',
-                 SETUP['preset_d'], 'r', SETUP['preset_r'])
+                (SETUP['prefix'], SETUP['training_phase'], 'joint', 'g',
+                 SETUP['preset_g'], 'd', SETUP['preset_d'], 'r',
+                 SETUP['preset_r'])
             )
         else:
             EXP_CONFIG['exp_name'] = '_'.join(
-                (SETUP['prefix'], SETUP['training_phase'], 'd',
-                 SETUP['preset_d'], 'r', SETUP['preset_r'])
+                (SETUP['prefix'], SETUP['training_phase'], 'g',
+                 SETUP['preset_g'], 'd', SETUP['preset_d'], 'r',
+                 SETUP['preset_r'])
             )
 
 # Set default pretained model directory
@@ -156,8 +159,10 @@ if EXP_CONFIG['first_stage_dir'] is None:
     if SETUP['first_stage_dir'] is not None:
         EXP_CONFIG['first_stage_dir'] = SETUP['first_stage_dir']
     else:
-        EXP_CONFIG['first_stage_dir'] = "./exp/{}/checkpoints".format(
-            '_'.join((SETUP['prefix'], 'pretrain', 'd', SETUP['preset_d']))
+        EXP_CONFIG['first_stage_dir'] = os.path.join(
+            os.path.dirname(os.path.realpath(__file__)), 'exp',
+            '_'.join((SETUP['prefix'], 'pretrain', 'g', SETUP['preset_g'],
+                      'd', SETUP['preset_d'])), 'checkpoints'
         )
 
 #===============================================================================
