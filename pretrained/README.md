@@ -9,9 +9,9 @@ sh download.sh [filename]
 This will download a particular pretrained model to the current working
 directory. Available models are listed as follows:
 
-- lastfm\_alternative\_pretrain\_d\_proposed.tar.gz
-- lastfm\_alternative\_pretrain\_d\_abalted.tar.gz
-- lastfm\_alternative\_pretrain\_d\_baseline.tar.gz
+- `lastfm_alternative_pretrain_d_proposed.tar.gz`
+- `lastfm_alternative_pretrain_d_abalted.tar.gz`
+- `lastfm_alternative_pretrain_d_baseline.tar.gz`
 
 ## Download all pretrained models
 
