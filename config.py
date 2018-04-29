@@ -47,7 +47,7 @@ SETUP = {
     'gpu': '0',
     # The GPU index in os.environ['CUDA_VISIBLE_DEVICES'] to use.
 
-    'prefix': 'alternative',
+    'prefix': 'lastfm_alternative',
     # Prefix for the experiment name. Useful when training with different
     # training data to avoid replacing the previous experiment outputs.
 
@@ -121,39 +121,43 @@ EXP_CONFIG = {
     'first_stage_dir': None,
 }
 
+if EXP_CONFIG['two_stage_training'] is None:
+    EXP_CONFIG['two_stage_training'] = SETUP['two_stage_training']
+if EXP_CONFIG['pretrained_dir'] is None:
+    EXP_CONFIG['pretrained_dir'] = SETUP['pretrained_dir']
+
+# Set default experiment name
 if EXP_CONFIG['exp_name'] is None:
     if SETUP['exp_name'] is not None:
         EXP_CONFIG['exp_name'] = SETUP['exp_name']
     elif not SETUP['two_stage_training']:
         EXP_CONFIG['exp_name'] = '_'.join(
-            ('end2end', SETUP['prefix'], SETUP['preset_d'], SETUP['preset_r'])
+            (SETUP['prefix'], 'end2end', 'd', SETUP['preset_d'], 'r',
+             SETUP['preset_r'])
         )
     elif SETUP['training_phase'] == 'pretrain':
         EXP_CONFIG['exp_name'] = '_'.join(
-            (SETUP['training_phase'], SETUP['prefix'], SETUP['preset_d'])
+            (SETUP['prefix'], SETUP['training_phase'], 'd', SETUP['preset_d'])
         )
     elif SETUP['training_phase'] == 'train':
         if SETUP['joint_training']:
             EXP_CONFIG['exp_name'] = '_'.join(
-                (SETUP['training_phase'], 'jointly_training',
-                 SETUP['prefix'], SETUP['preset_d'], SETUP['preset_r'])
+                (SETUP['prefix'], SETUP['training_phase'], 'joint', 'd',
+                 SETUP['preset_d'], 'r', SETUP['preset_r'])
             )
         else:
             EXP_CONFIG['exp_name'] = '_'.join(
-                (SETUP['training_phase'], SETUP['prefix'], SETUP['preset_d'],
-                 SETUP['preset_r'])
+                (SETUP['prefix'], SETUP['training_phase'], 'd',
+                 SETUP['preset_d'], 'r', SETUP['preset_r'])
             )
 
-if EXP_CONFIG['two_stage_training'] is None:
-    EXP_CONFIG['two_stage_training'] = SETUP['two_stage_training']
-if EXP_CONFIG['pretrained_dir'] is None:
-    EXP_CONFIG['pretrained_dir'] = SETUP['pretrained_dir']
+# Set default pretained model directory
 if EXP_CONFIG['first_stage_dir'] is None:
     if SETUP['first_stage_dir'] is not None:
         EXP_CONFIG['first_stage_dir'] = SETUP['first_stage_dir']
     else:
-        EXP_CONFIG['first_stage_dir'] = "./exp/pretrain_{}/checkpoints".format(
-            '_'.join((SETUP['prefix'], SETUP['preset_d']))
+        EXP_CONFIG['first_stage_dir'] = "./exp/{}/checkpoints".format(
+            '_'.join((SETUP['prefix'], 'pretrain', 'd', SETUP['preset_d']))
         )
 
 #===============================================================================
@@ -201,7 +205,6 @@ MODEL_CONFIG = {
     # Parameters
     'batch_size': 32, # Note: tf.layers.conv3d_transpose requires a fixed batch
                       # size in TensorFlow < 1.6
-    'z_dim': 128,
     'gan': {
         'type': 'wgan-gp', # 'gan', 'wgan'
         'clip_value': .01,
@@ -262,24 +265,28 @@ MODEL_CONFIG = {
     'tonal_matrix_coefficient': (1., 1., .5),
 
     # Directories
-    'checkpoint_dir': os.path.join('exp', EXP_CONFIG['exp_name'],
-                                   'checkpoints'),
-    'sample_dir': os.path.join('exp', EXP_CONFIG['exp_name'], 'samples'),
-    'eval_dir': os.path.join('exp', EXP_CONFIG['exp_name'], 'eval'),
-    'log_dir': os.path.join('exp', EXP_CONFIG['exp_name'], 'logs'),
-    'src_dir': os.path.join('exp', EXP_CONFIG['exp_name'], 'src'),
+    'checkpoint_dir': None,
+    'sample_dir': None,
+    'eval_dir': None,
+    'log_dir': None,
+    'src_dir': None,
 }
 
+if MODEL_CONFIG['joint_training'] is None:
+    MODEL_CONFIG['joint_training'] = SETUP['joint_training']
+
+# Set mode
 if MODEL_CONFIG['num_bar'] is None:
     if SETUP['mode'] == 'bar':
         MODEL_CONFIG['num_bar'] = 1
     elif SETUP['mode'] == 'phrase':
         MODEL_CONFIG['num_bar'] = 4
-if MODEL_CONFIG['joint_training'] is None:
-    MODEL_CONFIG['joint_training'] = SETUP['joint_training']
+
+# Import preset network architectures
 if MODEL_CONFIG['net_g'] is None:
     IMPORTED = importlib.import_module('.'.join((
-        'musegan.bmusegan.presets', SETUP['mode'], 'generator', SETUP['preset_g']
+        'musegan.bmusegan.presets', SETUP['mode'], 'generator',
+        SETUP['preset_g']
     )))
     MODEL_CONFIG['net_g'] = IMPORTED.NET_G
 if MODEL_CONFIG['net_d'] is None:
@@ -293,6 +300,33 @@ if MODEL_CONFIG['net_r'] is None:
         'musegan.bmusegan.presets', SETUP['mode'], 'refiner', SETUP['preset_r']
     )))
     MODEL_CONFIG['net_r'] = IMPORTED.NET_R
+
+# Set default directories
+if MODEL_CONFIG['checkpoint_dir'] is None:
+    MODEL_CONFIG['checkpoint_dir'] = os.path.join(
+        os.path.dirname(os.path.realpath(__file__)), 'exp',
+        EXP_CONFIG['exp_name'], 'checkpoints'
+    )
+if MODEL_CONFIG['sample_dir'] is None:
+    MODEL_CONFIG['sample_dir'] = os.path.join(
+        os.path.dirname(os.path.realpath(__file__)), 'exp',
+        EXP_CONFIG['exp_name'], 'samples'
+    )
+if MODEL_CONFIG['eval_dir'] is None:
+    MODEL_CONFIG['eval_dir'] = os.path.join(
+        os.path.dirname(os.path.realpath(__file__)), 'exp',
+        EXP_CONFIG['exp_name'], 'eval'
+    )
+if MODEL_CONFIG['log_dir'] is None:
+    MODEL_CONFIG['log_dir'] = os.path.join(
+        os.path.dirname(os.path.realpath(__file__)), 'exp',
+        EXP_CONFIG['exp_name'], 'logs'
+    )
+if MODEL_CONFIG['src_dir'] is None:
+    MODEL_CONFIG['src_dir'] = os.path.join(
+        os.path.dirname(os.path.realpath(__file__)), 'exp',
+        EXP_CONFIG['exp_name'], 'src'
+    )
 
 #===============================================================================
 #=================== Make directories & Backup source code =====================
