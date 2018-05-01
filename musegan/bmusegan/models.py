@@ -347,9 +347,9 @@ class GAN(Model):
                     if batch < 1:
                         print("epoch |   batch   |  time  |    - D_loss    |"
                               "     G_loss")
-                print("  {:2d}  | {:4d}/{:4d} | {:6.2f} | {:14.6f} | "
-                      "{:14.6f}".format(epoch, batch, num_batch, time_batch,
-                                        -d_loss, g_loss))
+                    print("  {:2d}  | {:4d}/{:4d} | {:6.2f} | {:14.6f} | "
+                          "{:14.6f}".format(epoch, batch, num_batch, time_batch,
+                                            -d_loss, g_loss))
 
                 log_batch.write("{:d}, {:d}, {:f}, {:f}, {:f}\n".format(
                     epoch, batch, time_batch, -d_loss, g_loss
@@ -569,9 +569,9 @@ class RefineGAN(Model):
                     if batch < 1:
                         print("epoch |   batch   |  time  |    - D_loss    |"
                               "     G_loss")
-                print("  {:2d}  | {:4d}/{:4d} | {:6.2f} | {:14.6f} | "
-                      "{:14.6f}".format(epoch, batch, num_batch, time_batch,
-                                        -d_loss, g_loss))
+                    print("  {:2d}  | {:4d}/{:4d} | {:6.2f} | {:14.6f} | "
+                          "{:14.6f}".format(epoch, batch, num_batch, time_batch,
+                                            -d_loss, g_loss))
 
                 log_batch.write("{:d}, {:d}, {:f}, {:f}, {:f}\n".format(
                     epoch, batch, time_batch, -d_loss, g_loss
@@ -769,9 +769,9 @@ class End2EndGAN(Model):
                     if batch < 1:
                         print("epoch |   batch   |  time  |    - D_loss    |"
                               "     G_loss")
-                print("  {:2d}  | {:4d}/{:4d} | {:6.2f} | {:14.6f} | "
-                      "{:14.6f}".format(epoch, batch, num_batch, time_batch,
-                                        -d_loss, g_loss))
+                    print("  {:2d}  | {:4d}/{:4d} | {:6.2f} | {:14.6f} | "
+                          "{:14.6f}".format(epoch, batch, num_batch, time_batch,
+                                            -d_loss, g_loss))
 
                 log_batch.write("{:d}, {:d}, {:f}, {:f}, {:f}\n".format(
                     epoch, batch, time_batch, -d_loss, g_loss
