@@ -381,7 +381,7 @@ class GAN(Model):
 
             if not train_config['verbose']:
                 if epoch < 1:
-                    print("epoch |    time    |    - D_loss    |     G_loss")
+                    print("epoch |   time   |    - D_loss    |     G_loss")
                 print("  {:2d}  | {:8.2f} | {:14.6f} | {:14.6f}".format(
                     epoch, time_epoch, -d_loss, g_loss))
 
@@ -597,7 +597,7 @@ class RefineGAN(Model):
 
             if not train_config['verbose']:
                 if epoch < 1:
-                    print("epoch |    time    |    - D_loss    |     G_loss")
+                    print("epoch |   time   |    - D_loss    |     G_loss")
                 print("  {:2d}  | {:8.2f} | {:14.6f} | {:14.6f}".format(
                     epoch, time_epoch, -d_loss, g_loss))
 
@@ -797,7 +797,7 @@ class End2EndGAN(Model):
 
             if not train_config['verbose']:
                 if epoch < 1:
-                    print("epoch |    time    |    - D_loss    |     G_loss")
+                    print("epoch |   time   |    - D_loss    |     G_loss")
                 print("  {:2d}  | {:8.2f} | {:14.6f} | {:14.6f}".format(
                     epoch, time_epoch, -d_loss, g_loss))
 
