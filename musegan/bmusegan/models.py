@@ -167,7 +167,7 @@ class Model(object):
                                      '{}.png'.format(filename))
         else:
             imagepath = os.path.join(self.config['sample_dir'],
-                                     '{}.png'.format(filename + postfix))
+                                     '{}_{}.png'.format(filename, postfix))
         image_io.save_image(imagepath, samples, shape)
         if save_midi:
             binarized = (samples > 0)
@@ -187,7 +187,7 @@ class Model(object):
         if postfix is None:
             filename = self.get_global_step_str()
         else:
-            filename = self.get_global_step_str() + postfix
+            filename = self.get_global_step_str() + '_' + postfix
         self.save_samples(filename, samples, save_midi, shape)
 
     def run_eval(self, target, feed_dict, postfix=None):
@@ -197,7 +197,7 @@ class Model(object):
         if postfix is None:
             filename = self.get_global_step_str()
         else:
-            filename = self.get_global_step_str() + postfix
+            filename = self.get_global_step_str() + '_' + postfix
         reshaped = binarized.reshape((-1,) + binarized.shape[2:])
         mat_path = os.path.join(self.config['eval_dir'], filename+'.npy')
         _ = self.metrics.eval(reshaped, mat_path=mat_path)
