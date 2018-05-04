@@ -37,7 +37,7 @@ class Component(object):
                     cleansed_nets.append(net[0])
         return '\n'.join(
             ["{:-^80}".format(' ' + self.scope.name + ' '),
-             "{:39} {}".format('Input', self.tensor_in.get_shape())]
+             "{:49} {}".format('Input', self.tensor_in.get_shape())]
             + ['-' * 80 + '\n' + (x.get_summary()) for x in cleansed_nets])
 
 class Generator(Component):
