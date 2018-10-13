@@ -78,7 +78,8 @@ a {
 
 a:hover, a:focus {
   color:#069;
-  font-weight: bold;
+  // font-weight: bold;
+  text-shadow: 0 0.015em #069,0 -0.015em #069,0.01em 0 #069,-0.01em 0 #069;
 }
 
 a small {
@@ -226,7 +227,7 @@ hr {
 }
 
 footer {
-  width:750px;
+  width:740px;
   float:right;
   padding-bottom:50px;
   -webkit-font-smoothing:subpixel-antialiased;
@@ -239,7 +240,7 @@ footer {
   }
 
   header {
-    width:250px;
+    width:260px;
   }
 
   section, footer {

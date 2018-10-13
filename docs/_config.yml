@@ -1,3 +1,9 @@
 theme: jekyll-theme-minimal
 title: BinaryMuseGAN
 description: an AI for music generation
+defaults:
+  -
+    scope:
+      path: ""
+    values:
+      type: "default"
