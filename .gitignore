@@ -104,10 +104,9 @@ ENV/
 .vscode/*
 
 # Experiments
-/data/
-/exp/
-/analysis/gen_test/
-/analysis/eval_statistics/
-/analysis/plot_loss_curve.ipynb
+.backup/
+.recycle/
+analysis/
+data/
+exp/
 logs/
-BACKUP/
