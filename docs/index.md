@@ -1,6 +1,6 @@
 <p class="switch-on-hover">
-  <img class="hide-on-hover" src="figs/logo.png" alt="logo" style="max-width:200px; display:inline-block;"/>
-  <img class="show-on-hover" src="figs/logo_bmusegan.png" alt="logo" style="max-width:200px; display:inline-block;"/>
+  <img class="hide-on-hover" src="figs/logo.png" alt="logo" style="max-width:200px;"/>
+  <img class="show-on-hover" src="figs/logo_bmusegan.png" alt="logo" style="max-width:200px;"/>
 </p>
 
 [BinaryMuseGAN](https://salu133445.github.io/bmusegan/) is a follow-up project

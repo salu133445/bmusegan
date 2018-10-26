@@ -35,4 +35,4 @@ The following are six sample pianoroll seen in our training data, where each
 block represents a bar. The tracks are (from top to bottom): _Drums_, _Piano_,
 _Guitar_, _Bass_, _Ensemble_, _Reed_, _Synth Lead_ and _Synth Pad_
 
-![train_samples](figs/train_samples.png)
+<img src="figs/train_samples.png" alt="train_samples" style="max-width:100%;">

@@ -1,6 +1,6 @@
 # Model
 
-<img src="figs/bmusegan.png" alt="system" style="max-width:400px;">
+<img src="figs/bmusegan.png" alt="system" style="max-width:100%;">
 
 The design is based on [MuseGAN](https://salu133445.github.io/musegan/) [1] as
 differences summarized below:
@@ -26,7 +26,7 @@ output for the corresponding track.
 musical properties (e.g., textures, common-used patterns, playing techniques),
 while jointly they follow a common, high-level musical idea.
 
-<img src="figs/generator.png" alt="generator" style="max-width:400px;">
+<img src="figs/generator.png" alt="generator" style="max-width:300px;">
 
 ## Refiner
 
