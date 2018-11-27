@@ -14,5 +14,5 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" > /dev/null && pwd )"
 if [ ! -d "$DIR/../data" ]; then
   mkdir "$DIR/../data"
 fi
-download "$DIR/../data/train_x_lpd_5_phr.npz" \
+download "$DIR/../data/training_data/lastfm_alternative_8b_phrase.npy" \
   "1x3CeSqE6ElWa6V7ueNl8FKPFmMoyu4ED"
