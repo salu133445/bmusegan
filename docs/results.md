@@ -27,19 +27,19 @@
 ### Comparisons of training and binarization strategies
 
 <div style="text-align:center">
-  <img src="figs/two-stage_polyphonicity.png" alt="two-stage_polyphonicity" style="max-width:300px; display:inline-block;">&emsp;
-  <img src="figs/two-stage_qualified_note_rate.png" alt="two-stage_qualified_note_rate" style="max-width:300px; display:inline-block;">
+  <img src="figs/two-stage_polyphonicity.png" alt="two-stage_polyphonicity" style="max-width:350px; display:inline-block;">&emsp;
+  <img src="figs/two-stage_qualified_note_rate.png" alt="two-stage_qualified_note_rate" style="max-width:350px; display:inline-block;">
 </div>
 
 <div style="text-align:center">
-  <img src="figs/end2end_qualified_note_rate.png" alt="end2end_qualified_note_rate" style="max-width:300px; display:inline-block;">
+  <img src="figs/end2end_qualified_note_rate.png" alt="end2end_qualified_note_rate" style="max-width:350px; display:inline-block;">
 </div>
 
 ### Effects of the shared/private and multi-stream design of the discriminator
 
 <div style="text-align:center">
-  <img src="figs/ablated_qualified_note_rate.png" alt="ablated_qualified_note_rate" style="max-width:300px; display:inline-block;">&emsp;
-  <img src="figs/ablated_tonal_distance.png" alt="ablated_tonal_distance" style="max-width:300px; display:inline-block;">
+  <img src="figs/ablated_qualified_note_rate.png" alt="ablated_qualified_note_rate" style="max-width:350px; display:inline-block;">&emsp;
+  <img src="figs/ablated_tonal_distance.png" alt="ablated_tonal_distance" style="max-width:350px; display:inline-block;">
 </div>
 
 ## Audio Samples
