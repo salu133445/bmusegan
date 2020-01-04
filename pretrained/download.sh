@@ -10,13 +10,13 @@ esac
 
 case $filename in
   "lastfm_alternative_pretrain_d_proposed.tar.gz")
-    fileid=12tEzs-Qa-qi59hLJB8TlD-vcZgVEQZu6
+    fileid=16LKWjiEjDjgiTjMLFcgnzZdCT-v8fp3T
     ;;
   "lastfm_alternative_pretrain_d_ablated.tar.gz")
-    fileid=1GolkoE2ktmHF2Pt7POd8TBBYZARu6ih8
+    fileid=1YyKAiPV0AuGuQB1K05dQAkPnsRMAqjtJ
     ;;
   "lastfm_alternative_pretrain_d_baseline.tar.gz")
-    fileid=1qWWWU6UTMJvzdK6y4bvh3PRXF5Xbk09v
+    fileid=1ZVASqhTApVWSvtM0N-952BAEbfUqRTfK
     ;;
   *)
     echo "File not found"

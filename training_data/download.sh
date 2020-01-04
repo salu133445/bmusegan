@@ -15,4 +15,4 @@ if [ ! -d "$DIR/../data" ]; then
   mkdir "$DIR/../data"
 fi
 download "$DIR/../data/training_data/lastfm_alternative_8b_phrase.npy" \
-  "1x3CeSqE6ElWa6V7ueNl8FKPFmMoyu4ED"
+  "1f9NKbhIxIbedHR370sc_hF9730985Xre"

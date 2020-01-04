@@ -27,7 +27,7 @@ are in 4/4 time and have been matched to distinct entries in
 Hence, the size of the target output tensor is 4 (bar) &times; 96 (time step)
 &times; 84 (pitch) &times; 8 (track).
 
-- [lastfm_alternative_8b_phrase.npy](https://drive.google.com/uc?id=1x3CeSqE6ElWa6V7ueNl8FKPFmMoyu4ED&export=download)
+- [lastfm_alternative_8b_phrase.npy](https://drive.google.com/uc?export=download&id=1f9NKbhIxIbedHR370sc_hF9730985Xre)
   (3.38 GB) contains 13,746 four-bar phrases from 2,291 songs with _alternative_
   tags. The shape is (2291, 6, 4, 96, 84, 8).
 
