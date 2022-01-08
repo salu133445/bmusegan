@@ -1,4 +1,5 @@
-# BinaryMuseGAN
+BinaryMuseGAN
+=============
 
 [BinaryMuseGAN](https://salu133445.github.io/bmusegan/) is a follow-up project
 of the [MuseGAN](https://salu133445.github.io/musegan/) project. In this
@@ -17,7 +18,8 @@ tracks: _Drums_, _Piano_, _Guitar_, _Bass_, _Ensemble_, _Reed_, _Synth Lead_ and
 _Synth Pad_. Audio samples are available
 [here](https://salu133445.github.io/bmusegan/results).
 
-## Run the code
+Run the code
+------------
 
 ### Configuration
 
@@ -44,7 +46,8 @@ manually (so that you won't overwrite a trained model).
 python main.py
 ```
 
-## Training Data
+Training data
+-------------
 
 - Prepare your own data
 
@@ -54,17 +57,17 @@ python main.py
 - Download our training data with this [script](training_data/download.sh) or
   download it manually [here](https://salu133445.github.io/bmusegan/data).
 
-## Paper
+Citing
+------
 
-__Convolutional Generative Adversarial Networks with Binary Neurons for
-Polyphonic Music Generation__<br>
-Hao-Wen Dong and Yi-Hsuan Yang<br>
-in _Proceedings of the 19th International Society for Music Information
-Retrieval Conference_ (ISMIR), 2018.<br>
-[[website](https://salu133445.github.io/bmusegan)]
-[[arxiv](https://arxiv.org/abs/1804.09399)]
+Please cite the following paper if you use the code provided in this repository.
+
+Hao-Wen Dong and Yi-Hsuan Yang, "Convolutional Generative Adversarial Networks with Binary Neurons for Polyphonic Music Generation," _Proceedings of the 19th International Society for Music Information Retrieval Conference (ISMIR)_, 2018.<br>
+[[homepage](https://salu133445.github.io/bmusegan)]
+[[video](https://youtu.be/r9C2Q2oR9Ik)]
 [[paper](https://salu133445.github.io/bmusegan/pdf/bmusegan-ismir2018-paper.pdf)]
-[[slides(long)](https://salu133445.github.io/bmusegan/pdf/bmusegan-tmac2018-slides.pdf)]
-[[slides(short)](https://salu133445.github.io/bmusegan/pdf/bmusegan-ismir2018-slides.pdf)]
+[[slides](https://salu133445.github.io/bmusegan/pdf/bmusegan-ismir2018-slides.pdf)]
+[[slides (long)](https://salu133445.github.io/bmusegan/pdf/bmusegan-tmac2018-slides.pdf)]
 [[poster](https://salu133445.github.io/bmusegan/pdf/bmusegan-ismir2018-poster.pdf)]
+[[arXiv](https://arxiv.org/abs/1804.09399)]
 [[code](https://github.com/salu133445/bmusegan)]
