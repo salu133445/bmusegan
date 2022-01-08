@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: If you use this software, please cite it using these metadata.
+authors:
+  - family-names: Dong
+    given-names: Hao-Wen
+title: BinaryMuseGAN
+preferred-citation:
+  type: article
+  authors:
+    - family-names: Dong
+      given-names: Hao-Wen
+    - family-names: Yang
+      given-names: Yi-Hsuan
+  title: "Convolutional Generative Adversarial Networks with Binary Neurons for Polyphonic Music Generation"
+  journal: Proceedings of the 19th International Society for Music Information Retrieval Conference (ISMIR)
+  year: 2018
+date-released: 2018-04-18
+license: MIT
+url: "https://salu133445.github.io/bmusegan/"
+repository-code: "https://github.com/salu133445/bmusegan"
